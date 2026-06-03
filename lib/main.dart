@@ -44,7 +44,12 @@ class TaskAIApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
+          surface: const Color(0xFFF8FAFC),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        fontFamily: 'SF Pro Display',
       ),
       routerConfig: _router,
     );
