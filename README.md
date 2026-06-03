@@ -1,17 +1,68 @@
-# task_ai
+# TaskAI v1.0 📋
 
-A new Flutter project.
+Aplicación móvil de gestión de tareas desarrollada en **Flutter** con
+**Material Design 3**. Permite crear, organizar y dar seguimiento a tus
+tareas con categorías, prioridades y estadísticas. Los datos se almacenan
+en memoria (versión 1.0).
 
-## Getting Started
+## ✨ Características
 
-This project is a starting point for a Flutter application.
+- Lista de tareas con título, categoría y estado (pendiente/completada)
+- CRUD completo: crear, editar y eliminar tareas (swipe to delete)
+- Filtros dinámicos por categoría y por estado
+- Pantalla de estadísticas (resumen por estado y categoría)
+- Pantalla de perfil con métricas de productividad
+- Navegación multipantalla con go_router
+- Gestión de estado con Provider
+- Interfaz con Material Design 3
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Tecnologías
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Flutter 3.x / Dart 3.x
+- Provider (gestión de estado)
+- go_router (navegación)
+- Material Design 3
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📁 Estructura del proyecto
+
+\`\`\`
+lib/
+├── models/      # Modelo de datos (Task)
+├── providers/   # Lógica de estado (TaskProvider)
+├── screens/     # Pantallas (home, formulario, estadísticas, perfil)
+├── theme/       # Colores de la app (AppColors)
+└── main.dart    # Punto de entrada y rutas
+\`\`\`
+
+## 🚀 Instalación y ejecución
+
+1. Clona el repositorio:
+   \`\`\`
+   git clone https://github.com/Tomjmp/task_ai.git
+   cd task_ai
+   \`\`\`
+2. Instala las dependencias:
+   \`\`\`
+   flutter pub get
+   \`\`\`
+3. Ejecuta la app:
+   \`\`\`
+   flutter run -d chrome      # en navegador
+   flutter run                # en emulador o dispositivo
+   \`\`\`
+
+## 📦 Generar el APK
+
+\`\`\`
+flutter build apk --release
+\`\`\`
+
+El archivo queda en \`build/app/outputs/flutter-apk/app-release.apk\`.
+
+## 📸 Capturas de pantalla
+
+_(Agrega aquí tus capturas del Dashboard, Crear Tarea, Estadísticas y Perfil)_
+
+## 👤 Autor
+
+Tomás Polanco — Asignación 2, Desarrollo Móvil Moderno
