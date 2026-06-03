@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import '../models/task.dart';
 
+enum StatusFilter { todas, pendientes, completadas }
+
 class TaskProvider extends ChangeNotifier {
   final List<Task> _tasks = [
     Task(
@@ -20,7 +22,38 @@ class TaskProvider extends ChangeNotifier {
     ),
   ];
 
+  TaskCategory? _categoryFilter; // null = todas las categorías
+  StatusFilter _statusFilter = StatusFilter.todas;
+
+  TaskCategory? get categoryFilter => _categoryFilter;
+  StatusFilter get statusFilter => _statusFilter;
+
+  // Lista completa, sin filtrar (la usaremos en estadísticas)
   List<Task> get tasks => List.unmodifiable(_tasks);
+
+  // Lista filtrada que muestra el Dashboard
+  List<Task> get filteredTasks {
+    return _tasks.where((t) {
+      final matchCategory =
+          _categoryFilter == null || t.category == _categoryFilter;
+      final matchStatus = switch (_statusFilter) {
+        StatusFilter.todas => true,
+        StatusFilter.pendientes => !t.isCompleted,
+        StatusFilter.completadas => t.isCompleted,
+      };
+      return matchCategory && matchStatus;
+    }).toList();
+  }
+
+  void setCategoryFilter(TaskCategory? category) {
+    _categoryFilter = category;
+    notifyListeners();
+  }
+
+  void setStatusFilter(StatusFilter status) {
+    _statusFilter = status;
+    notifyListeners();
+  }
 
   void addTask(Task task) {
     _tasks.add(task);
