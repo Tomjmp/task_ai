@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/task_provider.dart';
+import '../theme/app_colors.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,35 +16,46 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Perfil')),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.zero,
         children: [
-          const SizedBox(height: 16),
-          const Center(
-            child: CircleAvatar(
-              radius: 48,
-              child: Text('N', style: TextStyle(fontSize: 32)),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            decoration: const BoxDecoration(gradient: AppColors.profileGradient),
+            child: Column(
+              children: const [
+                CircleAvatar(
+                  radius: 44,
+                  backgroundColor: Colors.white,
+                  child: Text('N',
+                      style: TextStyle(
+                          fontSize: 32, fontWeight: FontWeight.bold)),
+                ),
+                SizedBox(height: 12),
+                Text('Estudiante',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold)),
+              ],
             ),
           ),
-          const SizedBox(height: 12),
-          Center(
-            child: Text('Estudiante',
-                style: Theme.of(context).textTheme.headlineSmall),
-          ),
-          const SizedBox(height: 24),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _stat(context, '$completed', 'Completadas'),
-                  _stat(context, '$total', 'Total'),
-                  _stat(context, '$productivity%', 'Productividad'),
-                ],
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _stat('$completed', 'Completadas'),
+                    _stat('$total', 'Total'),
+                    _stat('$productivity%', 'Productividad'),
+                  ],
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 16),
           const ListTile(
             leading: Icon(Icons.notifications_outlined),
             title: Text('Notificaciones'),
@@ -61,10 +73,11 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _stat(BuildContext context, String value, String label) {
+  Widget _stat(String value, String label) {
     return Column(
       children: [
-        Text(value, style: Theme.of(context).textTheme.titleLarge),
+        Text(value,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         Text(label),
       ],
     );

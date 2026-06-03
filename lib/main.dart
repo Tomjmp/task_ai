@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'models/task.dart';
 import 'providers/task_provider.dart';
+import 'theme/app_colors.dart';
 import 'screens/home_screen.dart';
 import 'screens/task_form_screen.dart';
 import 'screens/stats_screen.dart';
@@ -43,9 +44,7 @@ class TaskAIApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6C4DF6),
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
       ),
       routerConfig: _router,
     );

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../models/task.dart';
 import '../providers/task_provider.dart';
+import '../theme/app_colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,18 +27,20 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/form'),
-        child: const Icon(Icons.add),
+        icon: const Icon(Icons.add),
+        label: const Text('Nueva tarea'),
       ),
       body: Column(
         children: [
+          _progressHeader(context, provider.tasks),
           _buildFilters(context, provider),
-          const Divider(height: 1),
           Expanded(
             child: tasks.isEmpty
                 ? const Center(child: Text('No hay tareas'))
                 : ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 80),
                     itemCount: tasks.length,
                     itemBuilder: (context, index) {
                       final task = tasks[index];
@@ -45,7 +48,12 @@ class HomeScreen extends StatelessWidget {
                         key: ValueKey(task.id),
                         direction: DismissDirection.endToStart,
                         background: Container(
-                          color: Colors.red,
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.alta,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.only(right: 20),
                           child: const Icon(Icons.delete, color: Colors.white),
@@ -53,26 +61,7 @@ class HomeScreen extends StatelessWidget {
                         onDismissed: (_) {
                           context.read<TaskProvider>().deleteTask(task.id);
                         },
-                        child: ListTile(
-                          leading: Checkbox(
-                            value: task.isCompleted,
-                            onChanged: (_) {
-                              context
-                                  .read<TaskProvider>()
-                                  .toggleComplete(task.id);
-                            },
-                          ),
-                          title: Text(
-                            task.title,
-                            style: TextStyle(
-                              decoration: task.isCompleted
-                                  ? TextDecoration.lineThrough
-                                  : null,
-                            ),
-                          ),
-                          subtitle: Text(_categoryLabel(task.category)),
-                          onTap: () => context.push('/form', extra: task),
-                        ),
+                        child: _taskCard(context, task),
                       );
                     },
                   ),
@@ -82,9 +71,89 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget _progressHeader(BuildContext context, List<Task> allTasks) {
+    final total = allTasks.length;
+    final completed = allTasks.where((t) => t.isCompleted).length;
+    final progress = total == 0 ? 0.0 : completed / total;
+    return Container(
+      margin: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: AppColors.purpleGradient,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Progreso Hoy', style: TextStyle(color: Colors.white70)),
+          const SizedBox(height: 4),
+          Text(
+            '${(progress * 100).toStringAsFixed(0)}%',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text('$completed de $total tareas',
+              style: const TextStyle(color: Colors.white70)),
+          const SizedBox(height: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: LinearProgressIndicator(
+              value: progress,
+              backgroundColor: Colors.white24,
+              color: Colors.white,
+              minHeight: 8,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _taskCard(BuildContext context, Task task) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: ListTile(
+        leading: Checkbox(
+          value: task.isCompleted,
+          onChanged: (_) =>
+              context.read<TaskProvider>().toggleComplete(task.id),
+        ),
+        title: Text(
+          task.title,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            decoration: task.isCompleted ? TextDecoration.lineThrough : null,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Wrap(
+            spacing: 6,
+            children: [
+              Chip(
+                label: Text(_categoryLabel(task.category)),
+                visualDensity: VisualDensity.compact,
+              ),
+              Chip(
+                label: Text(_priorityLabel(task.priority)),
+                labelStyle: TextStyle(color: _priorityColor(task.priority)),
+                side: BorderSide(color: _priorityColor(task.priority)),
+                visualDensity: VisualDensity.compact,
+              ),
+            ],
+          ),
+        ),
+        onTap: () => context.push('/form', extra: task),
+      ),
+    );
+  }
+
   Widget _buildFilters(BuildContext context, TaskProvider provider) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -128,9 +197,32 @@ class HomeScreen extends StatelessWidget {
               }),
             ],
           ),
+          const SizedBox(height: 8),
         ],
       ),
     );
+  }
+
+  Color _priorityColor(TaskPriority priority) {
+    switch (priority) {
+      case TaskPriority.alta:
+        return AppColors.alta;
+      case TaskPriority.media:
+        return AppColors.media;
+      case TaskPriority.baja:
+        return AppColors.baja;
+    }
+  }
+
+  String _priorityLabel(TaskPriority priority) {
+    switch (priority) {
+      case TaskPriority.alta:
+        return 'Alta';
+      case TaskPriority.media:
+        return 'Media';
+      case TaskPriority.baja:
+        return 'Baja';
+    }
   }
 
   String _categoryLabel(TaskCategory category) {
