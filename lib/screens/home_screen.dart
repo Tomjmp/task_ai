@@ -17,6 +17,10 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Mis Tareas'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () => context.push('/profile'),
+          ),
+          IconButton(
             icon: const Icon(Icons.bar_chart),
             onPressed: () => context.push('/stats'),
           ),

@@ -6,6 +6,7 @@ import 'providers/task_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/task_form_screen.dart';
 import 'screens/stats_screen.dart';
+import 'screens/profile_screen.dart';
 
 void main() {
   runApp(
@@ -18,10 +19,7 @@ void main() {
 
 final _router = GoRouter(
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomeScreen(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
     GoRoute(
       path: '/form',
       builder: (context, state) {
@@ -29,10 +27,9 @@ final _router = GoRouter(
         return TaskFormScreen(task: task);
       },
     ),
+    GoRoute(path: '/stats', builder: (context, state) => const StatsScreen()),
     GoRoute(
-      path: '/stats',
-      builder: (context, state) => const StatsScreen(),
-    ),
+        path: '/profile', builder: (context, state) => const ProfileScreen()),
   ],
 );
 
