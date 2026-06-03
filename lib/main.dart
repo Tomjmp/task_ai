@@ -5,6 +5,7 @@ import 'models/task.dart';
 import 'providers/task_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/task_form_screen.dart';
+import 'screens/stats_screen.dart';
 
 void main() {
   runApp(
@@ -15,7 +16,6 @@ void main() {
   );
 }
 
-// Rutas de la app con go_router
 final _router = GoRouter(
   routes: [
     GoRoute(
@@ -25,9 +25,13 @@ final _router = GoRouter(
     GoRoute(
       path: '/form',
       builder: (context, state) {
-        final task = state.extra as Task?; // la tarea a editar, o null para crear
+        final task = state.extra as Task?;
         return TaskFormScreen(task: task);
       },
+    ),
+    GoRoute(
+      path: '/stats',
+      builder: (context, state) => const StatsScreen(),
     ),
   ],
 );

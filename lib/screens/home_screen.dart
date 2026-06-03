@@ -13,7 +13,15 @@ class HomeScreen extends StatelessWidget {
     final tasks = provider.filteredTasks;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Mis Tareas')),
+      appBar: AppBar(
+        title: const Text('Mis Tareas'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bar_chart),
+            onPressed: () => context.push('/stats'),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/form'),
         child: const Icon(Icons.add),
