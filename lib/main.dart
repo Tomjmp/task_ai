@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'providers/task_provider.dart';
 
 void main() {
-  runApp(const TaskAIApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => TaskProvider(),
+      child: const TaskAIApp(),
+    ),
+  );
 }
 
 class TaskAIApp extends StatelessWidget {
