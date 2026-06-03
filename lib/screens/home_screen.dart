@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import '../models/task.dart';
 import '../providers/task_provider.dart';
 
@@ -8,12 +9,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Escuchamos al provider: si la lista cambia, esta pantalla se redibuja sola
     final tasks = context.watch<TaskProvider>().tasks;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mis Tareas'),
+      appBar: AppBar(title: const Text('Mis Tareas')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.push('/form'),
+        child: const Icon(Icons.add),
       ),
       body: tasks.isEmpty
           ? const Center(child: Text('No hay tareas todavía'))
@@ -37,13 +39,13 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(_categoryLabel(task.category)),
+                  onTap: () => context.push('/form', extra: task),
                 );
               },
             ),
     );
   }
 
-  // Convierte el enum de categoría en texto legible
   String _categoryLabel(TaskCategory category) {
     switch (category) {
       case TaskCategory.trabajo:
