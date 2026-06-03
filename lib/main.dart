@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/task_provider.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(
@@ -25,9 +26,7 @@ class TaskAIApp extends StatelessWidget {
           seedColor: const Color(0xFF6C4DF6),
         ),
       ),
-      home: const Scaffold(
-        body: Center(child: Text('TaskAI v1.0')),
-      ),
+      home: const HomeScreen(),
     );
   }
 }
