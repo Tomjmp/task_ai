@@ -59,9 +59,6 @@ flutter build apk --release
 
 El archivo queda en \`build/app/outputs/flutter-apk/app-release.apk\`.
 
-## 📸 Capturas de pantalla
-
-_(Agrega aquí tus capturas del Dashboard, Crear Tarea, Estadísticas y Perfil)_
 
 ## 👤 Autor
 
